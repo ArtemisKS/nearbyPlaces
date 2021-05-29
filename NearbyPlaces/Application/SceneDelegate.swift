@@ -9,18 +9,18 @@ import UIKit
 
 // swiftlint:disable all
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
     func scene(
         _ scene: UIScene,
         willConnectTo session: UISceneSession,
-        options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        options connectionOptions: UIScene.ConnectionOptions
+    ) {
+        guard let scene = scene as? UIWindowScene else { return }
+
+        window = makeWindow(scene: scene, root: makeRoot())
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -53,7 +53,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Save changes in the application's managed object context when the application transitions to the background.
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
-
-
 }
 
+extension SceneDelegate {
+
+    func makeRoot() -> UIViewController {
+        HomeAssembly().makeHome()
+    }
+
+    func makeWindow(scene: UIWindowScene, root: UIViewController) -> UIWindow {
+        let window = UIWindow(frame: scene.coordinateSpace.bounds)
+        window.windowScene = scene
+        window.rootViewController = root
+        window.makeKeyAndVisible()
+        return window
+    }
+}

@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		ED19F52C266296E900ABBA52 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED19F52B266296E900ABBA52 /* AppDelegate.swift */; };
 		ED19F52E266296E900ABBA52 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED19F52D266296E900ABBA52 /* SceneDelegate.swift */; };
-		ED19F530266296E900ABBA52 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED19F52F266296E900ABBA52 /* ViewController.swift */; };
-		ED19F533266296E900ABBA52 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED19F531266296E900ABBA52 /* Main.storyboard */; };
 		ED19F536266296E900ABBA52 /* NearbyPlaces.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = ED19F534266296E900ABBA52 /* NearbyPlaces.xcdatamodeld */; };
 		ED19F538266296EA00ABBA52 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED19F537266296EA00ABBA52 /* Assets.xcassets */; };
 		ED19F53B266296EA00ABBA52 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED19F539266296EA00ABBA52 /* LaunchScreen.storyboard */; };
@@ -51,7 +49,6 @@
 		ED19F528266296E900ABBA52 /* NearbyPlaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NearbyPlaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED19F52B266296E900ABBA52 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ED19F52D266296E900ABBA52 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		ED19F52F266296E900ABBA52 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		ED19F535266296E900ABBA52 /* NearbyPlaces.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NearbyPlaces.xcdatamodel; sourceTree = "<group>"; };
 		ED19F537266296EA00ABBA52 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ED19F53C266296EA00ABBA52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -61,7 +58,6 @@
 		ED19F54C266296EA00ABBA52 /* NearbyPlacesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NearbyPlacesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED19F550266296EA00ABBA52 /* NearbyPlacesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyPlacesUITests.swift; sourceTree = "<group>"; };
 		ED19F552266296EA00ABBA52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ED19F56A26629BB500ABBA52 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ED19F56B26629BB500ABBA52 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED19F57826629C6A00ABBA52 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Home.strings; sourceTree = "<group>"; };
 		ED19F57D26629CCF00ABBA52 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
@@ -127,15 +123,11 @@
 		ED19F52A266296E900ABBA52 /* NearbyPlaces */ = {
 			isa = PBXGroup;
 			children = (
+				ED5D67082662B6400080F88A /* Application */,
 				ED5D66D52662B2700080F88A /* Common */,
 				ED5D66C62662B2200080F88A /* Modules */,
-				ED19F561266296F600ABBA52 /* Resources */,
-				ED19F52B266296E900ABBA52 /* AppDelegate.swift */,
-				ED19F52D266296E900ABBA52 /* SceneDelegate.swift */,
-				ED19F52F266296E900ABBA52 /* ViewController.swift */,
-				ED19F531266296E900ABBA52 /* Main.storyboard */,
-				ED19F53C266296EA00ABBA52 /* Info.plist */,
 				ED19F534266296E900ABBA52 /* NearbyPlaces.xcdatamodeld */,
+				ED19F561266296F600ABBA52 /* Resources */,
 			);
 			path = NearbyPlaces;
 			sourceTree = "<group>";
@@ -161,6 +153,7 @@
 		ED19F561266296F600ABBA52 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				ED19F53C266296EA00ABBA52 /* Info.plist */,
 				ED5D67012662B5A40080F88A /* Launch Screens */,
 				ED19F57D26629CCF00ABBA52 /* Assets.swift */,
 				ED19F56E26629C2600ABBA52 /* Strings */,
@@ -229,6 +222,15 @@
 				ED19F539266296EA00ABBA52 /* LaunchScreen.storyboard */,
 			);
 			path = "Launch Screens";
+			sourceTree = "<group>";
+		};
+		ED5D67082662B6400080F88A /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				ED19F52B266296E900ABBA52 /* AppDelegate.swift */,
+				ED19F52D266296E900ABBA52 /* SceneDelegate.swift */,
+			);
+			path = Application;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -340,7 +342,6 @@
 				ED19F53B266296EA00ABBA52 /* LaunchScreen.storyboard in Resources */,
 				ED19F57726629C6A00ABBA52 /* Home.strings in Resources */,
 				ED19F538266296EA00ABBA52 /* Assets.xcassets in Resources */,
-				ED19F533266296E900ABBA52 /* Main.storyboard in Resources */,
 				ED5D66C22662B0070080F88A /* swiftgen.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -403,7 +404,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ED19F530266296E900ABBA52 /* ViewController.swift in Sources */,
 				ED19F58326629CDB00ABBA52 /* LocalizableStrings.swift in Sources */,
 				ED5D66CE2662B23A0080F88A /* HomeAssembly.swift in Sources */,
 				ED19F52C266296E900ABBA52 /* AppDelegate.swift in Sources */,
@@ -451,14 +451,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		ED19F531266296E900ABBA52 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				ED19F56A26629BB500ABBA52 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		ED19F539266296EA00ABBA52 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -601,7 +593,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2GV9HU2JH8;
-				INFOPLIST_FILE = NearbyPlaces/Info.plist;
+				INFOPLIST_FILE = NearbyPlaces/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -609,7 +601,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ArtemisKS.NearbyPlacesApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -620,7 +612,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2GV9HU2JH8;
-				INFOPLIST_FILE = NearbyPlaces/Info.plist;
+				INFOPLIST_FILE = NearbyPlaces/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -628,7 +620,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ArtemisKS.NearbyPlacesApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
