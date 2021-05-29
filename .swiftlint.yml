@@ -1,0 +1,120 @@
+disabled_rules:
+  - inclusive_language
+  - todo
+
+opt_in_rules:
+  - anyobject_protocol
+  - array_init
+  - closure_end_indentation
+  - closure_spacing
+  - collection_alignment
+  - conditional_returns_on_newline
+  - contains_over_filter_count
+  - contains_over_filter_is_empty
+  - contains_over_first_not_nil
+  - contains_over_range_nil_comparison
+  - convenience_type
+  - discouraged_object_literal
+  - empty_collection_literal
+  - empty_count
+  - empty_string
+  - empty_xctest_method
+  - explicit_init
+  - fallthrough
+  - fatal_error_message
+  # - file_name
+  # - file_types_order
+  - first_where
+  - flatmap_over_map_reduce
+  - force_unwrapping
+  - function_default_parameter_at_end
+  - ibinspectable_in_extension
+  - identical_operands
+  - implicit_return
+  - implicitly_unwrapped_optional
+  # - indentation_width
+  - joined_default_parameter
+  - last_where
+  - legacy_multiple
+  - legacy_random
+  - let_var_whitespace
+  - literal_expression_end_indentation
+  - lower_acl_than_parent
+  - missing_docs
+  - modifier_order
+  - multiline_arguments
+  - multiline_arguments_brackets
+  - multiline_function_chains
+  - multiline_literal_brackets
+  - multiline_parameters
+  - multiline_parameters_brackets
+  - operator_usage_whitespace
+  - optional_enum_case_matching
+  - overridden_super_call
+  - override_in_extension
+  - prefer_self_type_over_type_of_self
+  - prefer_zero_over_explicit_init
+  - private_action
+  - private_outlet
+  - prohibited_interface_builder
+  - prohibited_super_call
+  - redundant_nil_coalescing
+  - redundant_type_annotation
+  - single_test_class
+  - sorted_first_last
+  - sorted_imports
+  - static_operator
+  - switch_case_on_newline
+  - test_case_accessibility
+  - toggle_bool
+  # - trailing_closure
+  - type_contents_order 
+  - unneeded_parentheses_in_closure_argument
+  - unowned_variable_capture
+  - unused_declaration
+  - unused_import
+  - vertical_parameter_alignment_on_call
+  - vertical_whitespace_closing_braces
+  - xct_specific_matcher
+  - yoda_condition
+
+conditional_returns_on_newline:
+  if_only: true
+
+included:
+  - BreachGuard
+  - BreachGuardTests
+  - BreachGuardUITests
+  - Packages
+
+excluded:
+ - Packages/GRDB
+
+modifier_order:
+  preferred_modifier_order:
+    - acl
+    - setterACL
+    - override
+    - dynamic
+    - mutators
+    - lazy
+    - final
+    - required
+    - convenience
+    - typeMethods
+    - owned
+
+custom_rules:
+  vertical_whitespace_opening_braces_types_extensions:
+    name: "Vertical Whitespace after Opening Braces in Types and Extensions"
+    regex: '(class|struct|enum|protocol|extension)[^\n]*\{\n(?!\s*\}|\n)'
+    message: "There should be an empty line after opening brace when declaring a type or an extension."
+    severity: warning
+
+nesting:
+  type_level: 2
+
+trailing_whitespace:
+  ignores_comments: false
+
+warning_threshold: 1
