@@ -1,0 +1,13 @@
+xcassets:
+  inputs:
+    - BreachGuard/Resources/Assets.xcassets
+  outputs:
+    - templateName: swift5
+      output: BreachGuard/Resources/Assets.swift
+
+strings:
+  inputs:
+    - BreachGuard/Resources/Strings/en.lproj
+  outputs:
+    - templateName: structured-swift5
+      output: BreachGuard/Resources/Strings/LocalizableStrings.swift
