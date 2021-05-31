@@ -82,13 +82,9 @@ conditional_returns_on_newline:
   if_only: true
 
 included:
-  - BreachGuard
-  - BreachGuardTests
-  - BreachGuardUITests
-  - Packages
+  - NearbyPlaces
 
 excluded:
- - Packages/GRDB
 
 modifier_order:
   preferred_modifier_order:

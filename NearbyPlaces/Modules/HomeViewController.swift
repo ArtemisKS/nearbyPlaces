@@ -9,19 +9,51 @@
 import UIKit
 import GoogleMaps
 
+struct Place {
+
+    let label: String
+    let coordinate: CLLocationCoordinate2D?
+    let attributes: [String: Any]?
+    let score: Double
+}
+
 protocol HomeView: AnyObject {
+
+    func putMarkers(for places: [Place])
 }
 
 // MARK: -
 
 final class HomeViewController: BaseViewController {
 
+    enum PlaceDetailsViewState {
+        case opened
+        case closed
+    }
+
     private let controller: HomeControlling
 
-    var locationManager: CLLocationManager!
-    var currentLocation: CLLocation?
-    var mapView: GMSMapView!
-    var defaultZoomLevel: Float = 14.0
+    private var locationManager: CLLocationManager!
+    private var currentLocation: CLLocation? {
+        didSet {
+            updateMapCamera(with: currentLocation)
+        }
+    }
+    private var mapView: GMSMapView!
+    private var placeDetailsView: PlaceDetailsView?
+    private var placeDetailsViewBottomConstraint: NSLayoutConstraint!
+    private var panRecognizer: UIPanGestureRecognizer!
+    private var defaultZoomLevel: Float = 14.0
+    private var places: [Place] = []
+    private var offset: CGFloat = 0
+
+    private var requestPlaces = true
+
+    private var placeDetailsViewState: PlaceDetailsViewState? {
+        didSet {
+            onPlaceDetailsViewStateChanged(state: placeDetailsViewState)
+        }
+    }
 
     init(controller: HomeControlling) {
         self.controller = controller
@@ -36,6 +68,21 @@ final class HomeViewController: BaseViewController {
         super.viewDidLoad()
 
         setupMap()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        requestPlaces(with: currentLocation)
+    }
+
+    private func requestPlaces(with location: CLLocation?) {
+        guard requestPlaces else {
+            return requestPlaces = true
+        }
+        if let location = location {
+            controller.findPlaces(for: location)
+        }
     }
 
     private func setupMap() {
@@ -53,20 +100,34 @@ final class HomeViewController: BaseViewController {
         mapView.settings.myLocationButton = true
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapView.isMyLocationEnabled = true
+        mapView.delegate = self
 
         // Add the map to the view, hide it until we've got a location update.
         view.addSubview(mapView)
         mapView.isHidden = true
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
     }
 }
 
 // MARK: - HomeView
 
 extension HomeViewController: HomeView {
+
+    func putMarkers(for places: [Place]) {
+        let placesToDisplay = Array(places.prefix(20))
+        mapView.clear()
+        _ = placesToDisplay.compactMap {
+            makeMarker(from: $0)
+        }
+        self.places = places
+    }
+
+    private func makeMarker(from place: Place) -> GMSMarker? {
+        guard let coordinate = place.coordinate else { return nil }
+        let marker = GMSMarker(position: coordinate)
+        marker.title = place.label
+        marker.map = mapView
+        return marker
+    }
 }
 
 extension HomeViewController: CLLocationManagerDelegate {
@@ -87,8 +148,15 @@ extension HomeViewController: CLLocationManagerDelegate {
 
     // Handle incoming location events.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let location: CLLocation = locations.last!
-        print("Location: \(location)")
+        guard let location: CLLocation = locations.last else { return }
+
+        currentLocation = location
+        debugPrint("Location: \(location)")
+    }
+
+    private func updateMapCamera(with location: CLLocation?) {
+
+        guard let location = location else { return }
 
         let camera = GMSCameraPosition.camera(
             withLatitude: location.coordinate.latitude,
@@ -138,5 +206,146 @@ extension HomeViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         locationManager.stopUpdatingLocation()
         print("Error: \(error)")
+    }
+}
+
+extension HomeViewController: GMSMapViewDelegate {
+
+    func mapView(_ mapView: GMSMapView, idleAt cameraPosition: GMSCameraPosition) {
+        requestPlaces(
+            with: CLLocation(
+                latitude: cameraPosition.target.latitude,
+                longitude: cameraPosition.target.longitude
+            )
+        )
+    }
+
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+
+        guard let place = places.first(where: { $0.label == marker.title }),
+              let attr = place.attributes else { return false }
+
+        func getAttr(_ key: String) -> String {
+            (attr[key] as? String) ?? ""
+        }
+
+        placeDetailsView?.removeFromSuperview()
+        placeDetailsView = PlaceDetailsView()
+        placeDetailsView!.setupView(
+            title: place.label,
+            address: getAttr("Place_addr"),
+            type: getAttr("Type"),
+            phone: getAttr("Phone").filter { !$0.isWhitespace },
+            zip: getAttr("Postal")
+        )
+        view.addSubview(placeDetailsView!)
+        placeDetailsView!.layout { (builder) in
+            builder.leading == view.leadingAnchor
+            builder.trailing == view.trailingAnchor
+        }
+        placeDetailsViewBottomConstraint =
+            placeDetailsView?.bottomAnchor.constraint(
+            equalTo: view.bottomAnchor,
+            constant: detailViewAnimationOffset
+        )
+        placeDetailsViewBottomConstraint?.isActive = true
+        setupGestureRecognizer()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+            self?.requestPlaces = false
+            self?.mapView.animate(toLocation: marker.position)
+        }
+
+        return true
+    }
+}
+
+// MARK: PlaceDetailsView gesture recognizers logic
+
+private extension HomeViewController {
+
+    private var closedStateHeight: CGFloat { 42 + UIApplication.bottomSafeArea }
+
+    private var detailViewAnimationOffset: CGFloat { 64 }
+
+    func setupGestureRecognizer() {
+        panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(recognizerEvent))
+        placeDetailsView?.addGestureRecognizer(panRecognizer)
+    }
+
+    func onRecognizerStateChanged(
+        translation: CGPoint,
+        minValue: CGFloat
+    ) {
+        placeDetailsViewBottomConstraint?.constant = translation.y + offset
+        if placeDetailsViewBottomConstraint.constant < 0 {
+            placeDetailsViewBottomConstraint.constant = 0
+        } else if placeDetailsViewBottomConstraint.constant > minValue {
+            self.placeDetailsViewBottomConstraint?.constant = minValue
+        }
+    }
+
+    private func onRecognizerStateEnded(
+        translation: CGPoint,
+        placeDetailsView: UIView
+    ) {
+        let viewHeight = abs(placeDetailsViewBottomConstraint.constant - detailViewAnimationOffset)
+        let thresholdViewHeight = placeDetailsView.frame.height / 3
+        if translation.y > 0 {
+            if viewHeight <
+                thresholdViewHeight {
+                placeDetailsViewState = .opened
+            } else {
+                placeDetailsViewState = .closed
+            }
+        }
+        if translation.y < 0 {
+            if viewHeight < 2 * thresholdViewHeight {
+                placeDetailsViewState = .opened
+            } else {
+                placeDetailsViewState = .closed
+            }
+        }
+    }
+
+    @objc private func recognizerEvent() {
+        guard let placeDetailsView = placeDetailsView else { return }
+        let minValue = placeDetailsView.frame.height - closedStateHeight
+        let translation = panRecognizer.translation(in: placeDetailsView)
+        switch panRecognizer.state {
+        case .began:
+            offset = placeDetailsViewBottomConstraint.constant
+        case .changed:
+            onRecognizerStateChanged(
+                translation: translation,
+                minValue: minValue
+            )
+        case .ended, .cancelled:
+            onRecognizerStateEnded(
+                translation: translation,
+                placeDetailsView: placeDetailsView
+            )
+        default:
+            break
+        }
+    }
+
+    private func onPlaceDetailsViewStateChanged(state: PlaceDetailsViewState?) {
+        placeDetailsView?.isHidden = state == nil
+        var result: CGFloat = 0
+        switch state {
+        case .opened:
+            result = detailViewAnimationOffset
+        case .closed:
+            result = (placeDetailsView?.frame.height ?? 0) - closedStateHeight
+        case .none:
+            placeDetailsViewBottomConstraint.constant = -(placeDetailsView?.frame.height ?? 0)
+        }
+        if state != nil {
+            UIView.animate(withDuration: 0.25) { [weak self] in
+                self?.placeDetailsViewBottomConstraint.constant = result
+                self?.view.layoutIfNeeded()
+            }
+        }
     }
 }
