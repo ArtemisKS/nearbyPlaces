@@ -26,6 +26,11 @@ protocol HomeView: AnyObject {
 
 final class HomeViewController: BaseViewController {
 
+    enum Constants {
+        static let markerColor: UIColor = .red
+        static let defaultZoomLevel: Float = 14.0
+    }
+
     enum PlaceDetailsViewState {
         case opened
         case closed
@@ -43,9 +48,9 @@ final class HomeViewController: BaseViewController {
     private var placeDetailsView: PlaceDetailsView?
     private var placeDetailsViewBottomConstraint: NSLayoutConstraint!
     private var panRecognizer: UIPanGestureRecognizer!
-    private var defaultZoomLevel: Float = 14.0
     private var places: [Place] = []
     private var offset: CGFloat = 0
+    private var selectedMarker: GMSMarker?
 
     private var requestPlaces = true
 
@@ -81,7 +86,9 @@ final class HomeViewController: BaseViewController {
             return requestPlaces = true
         }
         if let location = location {
-            controller.findPlaces(for: location)
+            closePlaceDetailView { [weak self] in
+                self?.controller.findPlaces(for: location)
+            }
         }
     }
 
@@ -95,7 +102,7 @@ final class HomeViewController: BaseViewController {
         let camera = GMSCameraPosition.camera(
             withLatitude: defaultLocation.coordinate.latitude,
             longitude: defaultLocation.coordinate.longitude,
-            zoom: defaultZoomLevel)
+            zoom: Constants.defaultZoomLevel)
         mapView = GMSMapView.map(withFrame: view.bounds, camera: camera)
         mapView.settings.myLocationButton = true
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -125,6 +132,7 @@ extension HomeViewController: HomeView {
         guard let coordinate = place.coordinate else { return nil }
         let marker = GMSMarker(position: coordinate)
         marker.title = place.label
+        marker.icon = GMSMarker.markerImage(with: Constants.markerColor)
         marker.map = mapView
         return marker
     }
@@ -161,7 +169,7 @@ extension HomeViewController: CLLocationManagerDelegate {
         let camera = GMSCameraPosition.camera(
             withLatitude: location.coordinate.latitude,
             longitude: location.coordinate.longitude,
-            zoom: defaultZoomLevel)
+            zoom: Constants.defaultZoomLevel)
 
         if mapView.isHidden {
             mapView.isHidden = false
@@ -211,6 +219,12 @@ extension HomeViewController: CLLocationManagerDelegate {
 
 extension HomeViewController: GMSMapViewDelegate {
 
+    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        selectedMarker?.icon = GMSMarker.markerImage(with: Constants.markerColor)
+        selectedMarker = nil
+        closePlaceDetailView()
+    }
+
     func mapView(_ mapView: GMSMapView, idleAt cameraPosition: GMSCameraPosition) {
         requestPlaces(
             with: CLLocation(
@@ -221,6 +235,10 @@ extension HomeViewController: GMSMapViewDelegate {
     }
 
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+
+        selectedMarker?.icon = GMSMarker.markerImage(with: Constants.markerColor)
+        marker.icon = GMSMarker.markerImage(with: .blue)
+        selectedMarker = marker
 
         guard let place = places.first(where: { $0.label == marker.title }),
               let attr = place.attributes else { return false }
@@ -289,10 +307,10 @@ private extension HomeViewController {
         translation: CGPoint,
         placeDetailsView: UIView
     ) {
-        let viewHeight = abs(placeDetailsViewBottomConstraint.constant - detailViewAnimationOffset)
+        let viewBottomConstraint = abs(placeDetailsViewBottomConstraint.constant - detailViewAnimationOffset)
         let thresholdViewHeight = placeDetailsView.frame.height / 3
         if translation.y > 0 {
-            if viewHeight <
+            if viewBottomConstraint <
                 thresholdViewHeight {
                 placeDetailsViewState = .opened
             } else {
@@ -300,7 +318,7 @@ private extension HomeViewController {
             }
         }
         if translation.y < 0 {
-            if viewHeight < 2 * thresholdViewHeight {
+            if viewBottomConstraint < 1.25 * thresholdViewHeight {
                 placeDetailsViewState = .opened
             } else {
                 placeDetailsViewState = .closed
@@ -346,6 +364,21 @@ private extension HomeViewController {
                 self?.placeDetailsViewBottomConstraint.constant = result
                 self?.view.layoutIfNeeded()
             }
+        }
+    }
+
+    private func closePlaceDetailView(completion: (() -> Void)? = nil) {
+        guard let placeDetailsView = placeDetailsView,
+              placeDetailsView.superview != nil else {
+            completion?()
+            return
+        }
+        UIView.animate(withDuration: 0.4) { [weak self] in
+            self?.placeDetailsViewBottomConstraint.constant = placeDetailsView.frame.height
+            self?.view.layoutIfNeeded()
+        } completion: { _ in
+            placeDetailsView.removeFromSuperview()
+            completion?()
         }
     }
 }
