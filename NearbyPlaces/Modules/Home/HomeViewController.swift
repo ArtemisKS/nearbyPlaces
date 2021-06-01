@@ -6,6 +6,8 @@
 //  
 //
 
+// swiftlint:disable file_length
+
 import UIKit
 import GoogleMaps
 
@@ -23,6 +25,7 @@ final class HomeViewController: BaseViewController {
         static let offset: CGFloat = 16
         static let markerColor: UIColor = .red
         static let defaultZoomLevel: Float = 14.0
+        static let viewListButtonOffset: CGFloat = -offset * 12
     }
 
     enum PlaceDetailsViewState {
@@ -76,7 +79,7 @@ final class HomeViewController: BaseViewController {
         }
         buttonBottomConstraint = button.bottomAnchor.constraint(
             equalTo: view.bottomAnchor,
-            constant: -Constants.offset * 12
+            constant: Constants.viewListButtonOffset
         )
         buttonBottomConstraint.isActive = true
 
@@ -205,6 +208,18 @@ extension HomeViewController: HomeView {
             )
         )
         present(alert, animated: true)
+    }
+
+    private func resetButtonBottomConstraint(
+        anchor: NSLayoutYAxisAnchor,
+        constant: CGFloat
+    ) {
+        buttonBottomConstraint.isActive = false
+        buttonBottomConstraint = viewListButton.bottomAnchor.constraint(
+            equalTo: anchor,
+            constant: constant
+        )
+        buttonBottomConstraint.isActive = true
     }
 }
 
@@ -353,12 +368,20 @@ extension HomeViewController: GMSMapViewDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
             self?.requestPlaces = false
             self?.mapView.animate(toLocation: marker.position)
-            self?.showAnimatePlaceDetailView()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+                self?.showAnimatePlaceDetailView()
+            }
         }
 
     }
 
     private func showAnimatePlaceDetailView() {
+        if let placeDetailsView = placeDetailsView {
+            resetButtonBottomConstraint(
+                anchor: placeDetailsView.topAnchor,
+                constant: -Constants.offset * 2
+            )
+        }
         UIView.animate(withDuration: 0.3) { [weak self] in
             guard let self = self else { return }
             self.placeDetailsViewBottomConstraint.constant = self.detailViewAnimationOffset
@@ -468,6 +491,10 @@ private extension HomeViewController {
             return
         }
         mapView.settings.myLocationButton = true
+        resetButtonBottomConstraint(
+            anchor: view.bottomAnchor,
+            constant: Constants.viewListButtonOffset
+        )
         UIView.animate(withDuration: duration) { [weak self] in
             self?.placeDetailsViewBottomConstraint.constant = placeDetailsView.frame.height
             self?.view.layoutIfNeeded()
