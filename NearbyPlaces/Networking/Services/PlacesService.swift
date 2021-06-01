@@ -13,7 +13,7 @@ protocol PlacesServiceProtocol: AnyObject {
     func findPlaces(
         latitude: Double,
         longtitude: Double,
-        completion: @escaping ([Place]) -> Void
+        completion: @escaping (Result<[Place], Error>) -> Void
     )
 }
 
@@ -34,7 +34,7 @@ class PlacesService: PlacesServiceProtocol {
     func findPlaces(
         latitude: Double,
         longtitude: Double,
-        completion: @escaping ([Place]) -> Void
+        completion: @escaping (Result<[Place], Error>) -> Void
     ) {
         let parameters = AGSGeocodeParameters()
         parameters.categories = ["Food"]
@@ -50,24 +50,33 @@ class PlacesService: PlacesServiceProtocol {
             parameters: parameters
         ) { (results, error) in
             if let error = error {
-                // TODO: handle error
-                debugPrint("Error: " + error.localizedDescription)
-            } else if let result = results?.first {
-                print("""
-                    Found \(result.label)
-                      at \(result.displayLocation)
-                    with score \(result.score)
-                    \(result.attributes)
-                """)
-            }
-            completion(results?.compactMap {
-                Place(
-                    label: $0.label,
-                    coordinate: $0.displayLocation?.toCLLocationCoordinate2D(),
-                    attributes: $0.attributes,
-                    score: $0.score
+                completion(.failure(error))
+            } else {
+                completion(
+                    .success(
+                        results?.compactMap { [weak self] in
+                            self?.makePlace(from: $0)
+                        } ?? []
+                    )
                 )
-            } ?? [])
+            }
         }
+    }
+
+    private func makePlace(from result: AGSGeocodeResult) -> Place {
+
+        func getAttr(_ key: String) -> String {
+            (result.attributes?[key] as? String) ?? ""
+        }
+
+        return Place(
+            title: result.label,
+            coordinate: result.displayLocation?.toCLLocationCoordinate2D(),
+            address: getAttr("Place_addr"),
+            type: getAttr("Type"),
+            phone: getAttr("Phone").filter { !$0.isWhitespace },
+            zip: getAttr("Postal"),
+            score: result.score
+        )
     }
 }

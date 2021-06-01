@@ -89,10 +89,10 @@ class PlaceDetailsView: UIView {
     ) {
         let titleLabel = makeTitleLabel(title: title, type: type)
 
-        let (addressStack, addressTitle, addressLabel) = makeLabelStack(title: "Address", value: address)
+        let (addressStack, addressTitle, addressLabel) = ViewFactory.makeLabelStack(title: "Address", value: address)
 
         let isPhone = phone != nil && !phone!.isEmpty
-        let (phoneStack, phoneTitle, phoneLabel) = makeLabelStack(
+        let (phoneStack, phoneTitle, phoneLabel) = ViewFactory.makeLabelStack(
             title: isPhone ? "Phone" : "Postal code",
             value: isPhone ? phone! : zip
         )
@@ -109,23 +109,6 @@ class PlaceDetailsView: UIView {
             stackView.addArrangedSubview($0)
         }
         setNeedsLayout()
-    }
-
-//    swiftlint:disable:next large_tuple
-    private func makeLabelStack(title: String, value: String) -> (
-        labelStack: UIStackView,
-        titleLabel: UILabel,
-        bodyLabel: UILabel
-    ) {
-        let titleLabel = UILabel()
-        titleLabel.text = title
-        titleLabel.font = .systemFont(ofSize: 17, weight: .semibold)
-        let bodyLabel = UILabel()
-        bodyLabel.text = value
-        let labelStack = UIStackView(arrangedSubviews: [titleLabel, bodyLabel])
-        labelStack.axis = .vertical
-        labelStack.spacing = 8
-        return (labelStack, titleLabel, bodyLabel)
     }
 
     private func makeTitleLabel(title: String, type: String) -> UILabel {

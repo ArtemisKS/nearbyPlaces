@@ -17,9 +17,15 @@ protocol HomeAssembling {
 
 final class HomeAssembly {
 
+    private let placesListAssembly: PlacesListAssembling
+
     private let placesService: PlacesServiceProtocol
 
-    init(placesService: PlacesServiceProtocol) {
+    init(
+        placesListAssembly: PlacesListAssembling,
+        placesService: PlacesServiceProtocol
+    ) {
+        self.placesListAssembly = placesListAssembly
         self.placesService = placesService
     }
 }
@@ -29,7 +35,7 @@ final class HomeAssembly {
 extension HomeAssembly: HomeAssembling {
 
     func makeHome() -> UIViewController {
-        let coordinator = HomeCoordinator()
+        let coordinator = HomeCoordinator(makePlacesList: placesListAssembly.makePlacesList)
         let controller = HomeController(
             coordinator: coordinator,
             placesService: placesService

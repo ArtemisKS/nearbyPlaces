@@ -58,7 +58,10 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 extension SceneDelegate {
 
     func makeRoot() -> UIViewController {
-        HomeAssembly(placesService: PlacesService()).makeHome()
+        HomeAssembly(
+            placesListAssembly: PlacesListAssembly(),
+            placesService: PlacesService()
+        ).makeHome()
     }
 
     func makeWindow(scene: UIWindowScene, root: UIViewController) -> UIWindow {

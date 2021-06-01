@@ -51,6 +51,14 @@
 		ED5D67F426652D110080F88A /* AutolayoutDSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5D67F326652D110080F88A /* AutolayoutDSL.swift */; };
 		ED5D67F92665341E0080F88A /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5D67F82665341E0080F88A /* UIView.swift */; };
 		ED5D67FE26656D800080F88A /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5D67FD26656D800080F88A /* UIApplication.swift */; };
+		ED5D6818266685F30080F88A /* PlacesListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5D6814266685F30080F88A /* PlacesListCoordinator.swift */; };
+		ED5D6819266685F30080F88A /* PlacesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5D6815266685F30080F88A /* PlacesListViewController.swift */; };
+		ED5D681A266685F30080F88A /* PlacesListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5D6816266685F30080F88A /* PlacesListController.swift */; };
+		ED5D681B266685F30080F88A /* PlacesListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5D6817266685F30080F88A /* PlacesListAssembly.swift */; };
+		ED5D68242666863D0080F88A /* PlaceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5D68232666863D0080F88A /* PlaceTableViewCell.swift */; };
+		ED5D682A2666895B0080F88A /* ViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5D68292666895B0080F88A /* ViewFactory.swift */; };
+		ED5D68392666912F0080F88A /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5D68382666912F0080F88A /* Place.swift */; };
+		ED5D68412666AF970080F88A /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5D68402666AF970080F88A /* Collection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +129,14 @@
 		ED5D67F326652D110080F88A /* AutolayoutDSL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutolayoutDSL.swift; sourceTree = "<group>"; };
 		ED5D67F82665341E0080F88A /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		ED5D67FD26656D800080F88A /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
+		ED5D6814266685F30080F88A /* PlacesListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesListCoordinator.swift; sourceTree = "<group>"; };
+		ED5D6815266685F30080F88A /* PlacesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesListViewController.swift; sourceTree = "<group>"; };
+		ED5D6816266685F30080F88A /* PlacesListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesListController.swift; sourceTree = "<group>"; };
+		ED5D6817266685F30080F88A /* PlacesListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesListAssembly.swift; sourceTree = "<group>"; };
+		ED5D68232666863D0080F88A /* PlaceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTableViewCell.swift; sourceTree = "<group>"; };
+		ED5D68292666895B0080F88A /* ViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFactory.swift; sourceTree = "<group>"; };
+		ED5D68382666912F0080F88A /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		ED5D68402666AF970080F88A /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +209,7 @@
 		ED19F52A266296E900ABBA52 /* NearbyPlaces */ = {
 			isa = PBXGroup;
 			children = (
+				ED5D6837266691250080F88A /* Models */,
 				ED5D67A02664CB250080F88A /* Networking */,
 				ED5D67082662B6400080F88A /* Application */,
 				ED5D66D52662B2700080F88A /* Common */,
@@ -245,11 +262,8 @@
 		ED5D66C62662B2200080F88A /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				ED5D67EA26652C960080F88A /* Views */,
-				ED5D66C72662B23A0080F88A /* HomeCoordinator.swift */,
-				ED5D66C82662B23A0080F88A /* HomeViewController.swift */,
-				ED5D66C92662B23A0080F88A /* HomeController.swift */,
-				ED5D66CA2662B23A0080F88A /* HomeAssembly.swift */,
+				ED5D6813266685DA0080F88A /* PlacesList */,
+				ED5D6812266685CD0080F88A /* Home */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -257,6 +271,7 @@
 		ED5D66D52662B2700080F88A /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				ED5D6828266689380080F88A /* Factories */,
 				ED5D66FB2662B4020080F88A /* Extensions */,
 				ED5D66DC2662B3680080F88A /* Utils */,
 				ED5D66DB2662B2E70080F88A /* ViewControllers */,
@@ -287,6 +302,7 @@
 				ED5D66FC2662B50F0080F88A /* UIColor.swift */,
 				ED5D67F82665341E0080F88A /* UIView.swift */,
 				ED5D67FD26656D800080F88A /* UIApplication.swift */,
+				ED5D68402666AF970080F88A /* Collection.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -357,6 +373,54 @@
 				ED5D67EB26652CCC0080F88A /* PlaceDetailsView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		ED5D6812266685CD0080F88A /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				ED5D67EA26652C960080F88A /* Views */,
+				ED5D66C72662B23A0080F88A /* HomeCoordinator.swift */,
+				ED5D66C82662B23A0080F88A /* HomeViewController.swift */,
+				ED5D66C92662B23A0080F88A /* HomeController.swift */,
+				ED5D66CA2662B23A0080F88A /* HomeAssembly.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		ED5D6813266685DA0080F88A /* PlacesList */ = {
+			isa = PBXGroup;
+			children = (
+				ED5D6822266686210080F88A /* Views */,
+				ED5D6814266685F30080F88A /* PlacesListCoordinator.swift */,
+				ED5D6815266685F30080F88A /* PlacesListViewController.swift */,
+				ED5D6816266685F30080F88A /* PlacesListController.swift */,
+				ED5D6817266685F30080F88A /* PlacesListAssembly.swift */,
+			);
+			path = PlacesList;
+			sourceTree = "<group>";
+		};
+		ED5D6822266686210080F88A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				ED5D68232666863D0080F88A /* PlaceTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		ED5D6828266689380080F88A /* Factories */ = {
+			isa = PBXGroup;
+			children = (
+				ED5D68292666895B0080F88A /* ViewFactory.swift */,
+			);
+			path = Factories;
+			sourceTree = "<group>";
+		};
+		ED5D6837266691250080F88A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				ED5D68382666912F0080F88A /* Place.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -540,11 +604,18 @@
 				ED5D67F92665341E0080F88A /* UIView.swift in Sources */,
 				ED19F58326629CDB00ABBA52 /* LocalizableStrings.swift in Sources */,
 				ED5D66CE2662B23A0080F88A /* HomeAssembly.swift in Sources */,
+				ED5D68392666912F0080F88A /* Place.swift in Sources */,
+				ED5D6819266685F30080F88A /* PlacesListViewController.swift in Sources */,
+				ED5D682A2666895B0080F88A /* ViewFactory.swift in Sources */,
+				ED5D68412666AF970080F88A /* Collection.swift in Sources */,
 				ED19F52C266296E900ABBA52 /* AppDelegate.swift in Sources */,
+				ED5D68242666863D0080F88A /* PlaceTableViewCell.swift in Sources */,
 				ED5D66D72662B27B0080F88A /* AssembledModule.swift in Sources */,
 				ED5D67F426652D110080F88A /* AutolayoutDSL.swift in Sources */,
+				ED5D681B266685F30080F88A /* PlacesListAssembly.swift in Sources */,
 				ED5D67D52664D4AB0080F88A /* PlacesService.swift in Sources */,
 				ED5D66DE2662B3870080F88A /* BaseViewController.swift in Sources */,
+				ED5D681A266685F30080F88A /* PlacesListController.swift in Sources */,
 				ED5D66CC2662B23A0080F88A /* HomeViewController.swift in Sources */,
 				ED5D67EC26652CCC0080F88A /* PlaceDetailsView.swift in Sources */,
 				ED19F536266296E900ABBA52 /* NearbyPlaces.xcdatamodeld in Sources */,
@@ -553,6 +624,7 @@
 				ED5D66FD2662B50F0080F88A /* UIColor.swift in Sources */,
 				ED19F57E26629CCF00ABBA52 /* Assets.swift in Sources */,
 				ED5D66CB2662B23A0080F88A /* HomeCoordinator.swift in Sources */,
+				ED5D6818266685F30080F88A /* PlacesListCoordinator.swift in Sources */,
 				ED19F52E266296E900ABBA52 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

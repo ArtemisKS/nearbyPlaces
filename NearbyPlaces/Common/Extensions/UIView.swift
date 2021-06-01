@@ -36,6 +36,37 @@ extension UIView {
     }
 }
 
+extension UIView {
+
+    /// Disable translation of autoresizing mask into constraints and add as subviews.
+    func addSubviewsToViewHierarchy(_ subviews: [UIView]) {
+        for view in subviews {
+            view.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(view)
+        }
+    }
+
+    func pinSubview(_ subview: UIView, insets: NSDirectionalEdgeInsets = .zero) {
+        addSubviewsToViewHierarchy([subview])
+        NSLayoutConstraint.activate([
+            subview.leadingAnchor.constraint(equalTo: leadingAnchor, constant: insets.leading),
+            subview.topAnchor.constraint(equalTo: topAnchor, constant: insets.top),
+            subview.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -insets.trailing),
+            subview.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -insets.bottom)
+        ])
+    }
+
+    func pinSubviewToSafeAreaLayoutGuide(_ subview: UIView, insets: NSDirectionalEdgeInsets = .zero) {
+        addSubviewsToViewHierarchy([subview])
+        NSLayoutConstraint.activate([
+            subview.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: insets.leading),
+            subview.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: insets.top),
+            subview.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: insets.trailing),
+            subview.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: insets.bottom)
+        ])
+    }
+}
+
 extension CALayer {
 
     func addShadow(
