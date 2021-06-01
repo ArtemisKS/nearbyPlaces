@@ -133,8 +133,8 @@ extension PlacesListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.beginUpdates()
-        (tableView.cellForRow(at: indexPath) as? PlaceTableViewCell)?.onCellTap(duration: 0.2) {
-            self.view.layoutIfNeeded()
+        (tableView.cellForRow(at: indexPath) as? PlaceTableViewCell)?.onCellTap(duration: 0.2) { [weak self] in
+            self?.view.layoutIfNeeded()
         }
         tableView.endUpdates()
     }

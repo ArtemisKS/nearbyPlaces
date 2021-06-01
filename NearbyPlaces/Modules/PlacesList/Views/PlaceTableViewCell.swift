@@ -104,8 +104,8 @@ class PlaceTableViewCell: UITableViewCell {
             delay: 0,
             options: .calculationModePaced,
             animations: {
-                UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: duration, animations: {
-
+                UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: duration, animations: { [weak self] in
+                    guard let self = self else { return }
                     self.bodyStack.alpha = self.bodyStack.isHidden ? 1 : 0
                     self.bodyStack.isHidden.toggle()
                 })
