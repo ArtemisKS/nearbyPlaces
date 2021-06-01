@@ -321,7 +321,14 @@ extension HomeViewController: GMSMapViewDelegate {
 
         guard let place = places.first(where: { $0.title == marker.title }) else { return false }
 
-        placeDetailsView?.removeFromSuperview()
+        closePlaceDetailView { [weak self] in
+            self?.setupPlaceDetailView(place: place, marker: marker)
+        }
+
+        return true
+    }
+
+    private func setupPlaceDetailView(place: Place, marker: GMSMarker) {
         placeDetailsView = PlaceDetailsView()
         placeDetailsView!.setupView(
             title: place.title,
@@ -339,17 +346,26 @@ extension HomeViewController: GMSMapViewDelegate {
         placeDetailsViewBottomConstraint =
             placeDetailsView?.bottomAnchor.constraint(
             equalTo: view.bottomAnchor,
-            constant: detailViewAnimationOffset
+            constant: 400
         )
         placeDetailsViewBottomConstraint?.isActive = true
-        setupGestureRecognizer()
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
             self?.requestPlaces = false
             self?.mapView.animate(toLocation: marker.position)
+            self?.showAnimatePlaceDetailView()
         }
 
-        return true
+    }
+
+    private func showAnimatePlaceDetailView() {
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self = self else { return }
+            self.placeDetailsViewBottomConstraint.constant = self.detailViewAnimationOffset
+            self.view.layoutIfNeeded()
+        } completion: { [weak self] _ in
+            self?.setupGestureRecognizer()
+        }
     }
 }
 
@@ -442,14 +458,17 @@ private extension HomeViewController {
         }
     }
 
-    private func closePlaceDetailView(completion: (() -> Void)? = nil) {
+    private func closePlaceDetailView(
+        duration: TimeInterval = 0.3,
+        completion: (() -> Void)? = nil
+    ) {
         guard let placeDetailsView = placeDetailsView,
               placeDetailsView.superview != nil else {
             completion?()
             return
         }
         mapView.settings.myLocationButton = true
-        UIView.animate(withDuration: 0.4) { [weak self] in
+        UIView.animate(withDuration: duration) { [weak self] in
             self?.placeDetailsViewBottomConstraint.constant = placeDetailsView.frame.height
             self?.view.layoutIfNeeded()
         } completion: { _ in
