@@ -63,6 +63,8 @@
 		ED5D685C2666F4A50080F88A /* PlaceModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5D685A2666F4A50080F88A /* PlaceModel+CoreDataProperties.swift */; };
 		ED5D68652666FBED0080F88A /* CLLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5D68642666FBED0080F88A /* CLLocation.swift */; };
 		ED5D686A2666FC6C0080F88A /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5D68692666FC6C0080F88A /* Double.swift */; };
+		ED5D686F2667091D0080F88A /* HomeControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5D686E2667091D0080F88A /* HomeControllerTests.swift */; };
+		ED5D6876266710D00080F88A /* PlacesListControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5D6875266710D00080F88A /* PlacesListControllerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -145,6 +147,8 @@
 		ED5D685A2666F4A50080F88A /* PlaceModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaceModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		ED5D68642666FBED0080F88A /* CLLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocation.swift; sourceTree = "<group>"; };
 		ED5D68692666FC6C0080F88A /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
+		ED5D686E2667091D0080F88A /* HomeControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeControllerTests.swift; sourceTree = "<group>"; };
+		ED5D6875266710D00080F88A /* PlacesListControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesListControllerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -231,6 +235,8 @@
 		ED19F544266296EA00ABBA52 /* NearbyPlacesTests */ = {
 			isa = PBXGroup;
 			children = (
+				ED5D6874266710BC0080F88A /* PlacesList */,
+				ED5D6873266710B20080F88A /* Home */,
 				ED19F545266296EA00ABBA52 /* NearbyPlacesTests.swift */,
 				ED19F547266296EA00ABBA52 /* Info.plist */,
 			);
@@ -441,6 +447,22 @@
 				ED19F534266296E900ABBA52 /* NearbyPlaces.xcdatamodeld */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		ED5D6873266710B20080F88A /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				ED5D686E2667091D0080F88A /* HomeControllerTests.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		ED5D6874266710BC0080F88A /* PlacesList */ = {
+			isa = PBXGroup;
+			children = (
+				ED5D6875266710D00080F88A /* PlacesListControllerTests.swift */,
+			);
+			path = PlacesList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -657,7 +679,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED5D686F2667091D0080F88A /* HomeControllerTests.swift in Sources */,
 				ED19F546266296EA00ABBA52 /* NearbyPlacesTests.swift in Sources */,
+				ED5D6876266710D00080F88A /* PlacesListControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
