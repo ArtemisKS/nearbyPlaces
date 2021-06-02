@@ -144,7 +144,7 @@ final class HomeViewController: BaseViewController {
         }
         if let location = location {
             closePlaceDetailView { [weak self] in
-                self?.controller.findPlaces(for: location)
+                self?.controller.fetchPlaces(for: location)
             }
         }
     }
@@ -277,9 +277,9 @@ extension HomeViewController: CLLocationManagerDelegate {
         let accuracy = manager.accuracyAuthorization
         switch accuracy {
         case .fullAccuracy:
-            print("Location accuracy is precise.")
+            NSLog("Location accuracy is precise.")
         case .reducedAccuracy:
-            print("Location accuracy is not precise.")
+            NSLog("Location accuracy is not precise.")
         @unknown default:
             fatalError()
         }
@@ -287,16 +287,16 @@ extension HomeViewController: CLLocationManagerDelegate {
         // Handle authorization status
         switch status {
         case .restricted:
-            print("Location access was restricted.")
+            NSLog("Location access was restricted.")
         case .denied:
-            print("User denied access to location.")
+            NSLog("User denied access to location.")
             // Display the map using the default location.
             mapView.isHidden = false
         case .notDetermined:
-            print("Location status not determined.")
+            NSLog("Location status not determined.")
         case .authorizedAlways, .authorizedWhenInUse:
             locationManager.startUpdatingLocation()
-            print("Location status is OK.")
+            NSLog("Location status is OK.")
         @unknown default:
             fatalError()
         }
