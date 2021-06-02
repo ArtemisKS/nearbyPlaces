@@ -9,7 +9,13 @@ It also stores the last 20 pins displayed on the map offline (in a Core Data)
 
 ## Cloning the repo & installation
 
-To get this app up and running, just clone the repository, and open NearbyPlaces.xcodeproj
+To get this app up and running
+* clone the repository and open NearbyPlaces.xcodeproj
+* install carthage, if necessary (`brew install carthage`)
+* run `carthage update` 
+* if GoogleMaps framework throws compilation error, add frameworks from path `Carthage/Build/iOS/` in target's `General` tab or in `Build Phases - Link Binary With Libraries` (In case of unsuccessful attempt, visit [this link](https://developers.google.com/maps/documentation/places/ios-sdk/start))
+* You're good to go!
+
 
 ---
 
