@@ -161,9 +161,11 @@ extension HomeController: HomeControlling {
         if let objects = fetchPlaceModels(),
            let firstPlace = objects.first,
            CLLocation(latitude: firstPlace.queryLatitude, longitude: firstPlace.queryLongitude) == location {
-            view?.putMarkers(for: objects.compactMap {
+            let places = objects.compactMap {
                 makePlace(from: $0)
-            })
+            }
+            self.places = places
+            view?.putMarkers(for: places)
             return
         }
 
