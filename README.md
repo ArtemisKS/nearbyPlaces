@@ -17,6 +17,8 @@ To get this app up and running, just clone the repository, and open NearbyPlaces
 
 <img src="/images/NearbyPlaces1.gif" height="853" width="394"> <img src="/images/NearbyPlaces2.gif" height="853" width="394">
 
+<img src="/images/NearbyPlaces3.gif" height="853" width="394"> <img src="/images/NearbyPlaces4.gif" height="853" width="394">
+
 ---
 
 The project is written in MVC (classic MVC pattern, basically MVP, not Apple MVC), with principles of SOLID in mind. Samples of Unit Tests are also provided.
