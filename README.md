@@ -1,6 +1,6 @@
 # NearbyPlaces
 
-## ```NearbyPlaces``` is a food places searching app
+## ```NearbyPlaces``` is a food places searching app (done in a day)
 It gives you the list of food places from [this site](https://developers.arcgis.com/)  
 You can move around 20 first of them as pins on the map or look through their entirety in a separate list
 It also stores the last 20 pins displayed on the map offline (in a Core Data)
