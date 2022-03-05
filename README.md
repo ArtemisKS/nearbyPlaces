@@ -1,4 +1,5 @@
 # NearbyPlaces
+This app lets you surf through nearby places to eat on the map
 
 ## ```NearbyPlaces``` is a food places searching app (done in a day)
 It gives you the list of food places from [this site](https://developers.arcgis.com/)  
